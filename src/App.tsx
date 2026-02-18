@@ -25,9 +25,8 @@ function App() {
 
   // Replace with your deployed Google Apps Script doGet URL
   const doGetWebAppUrl = 'https://script.google.com/macros/s/AKfycbzHvmMsw8W_DKLT9kZhCak_PujFyKOun2KcS1WqjQARd51GSDBJEMbF3qB5_lwKMeE-/exec';
-  const doPostWebAppUrl = 'https://script.google.com/macros/s/AKfycbwNzDsAsrjkwjrd2rG1aRiilmneNxgqJCk4pfuTs1E/dev'
   // Replace with your deployed Google Apps Script doPost URL
-  //const doPostWebAppUrl = 'https://script.google.com/macros/s/AKfycbzHvmMsw8W_DKLT9kZhCak_PujFyKOun2KcS1WqjQARd51GSDBJEMbF3qB5_lwKMeE-/exec';
+  const doPostWebAppUrl = 'https://script.google.com/macros/s/AKfycbzHvmMsw8W_DKLT9kZhCak_PujFyKOun2KcS1WqjQARd51GSDBJEMbF3qB5_lwKMeE-/exec';
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
