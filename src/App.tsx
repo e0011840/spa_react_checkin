@@ -148,7 +148,8 @@ function App() {
               </div>
               <div className="status-info">
                 Status: {attendee.CheckIn === 'Y' ? 'Checked In' : 'Not Checked In'}
-                {attendee["Table No"] && ` | Table: ${attendee["Table No"]}`}
+                {attendee.CheckIn === 'Y' && attendee["Table No"] && ` | Table: ${attendee["Table No"]}`}
+
               </div>
             </div>
           ))}
