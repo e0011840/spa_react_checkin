@@ -1,0 +1,48 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+.report/
+
+# Node.js
+# https://github.com/nodejs/node/blob/master/.gitignore
+node_modules/
+dist/
+dist-ssr/
+*.local
+.env
+.env.*
+!.env.production
+!.env.staging
+.npm
+.yarn-cache/
+.pnpm-store/
+(npm-cache|yarn-cache|yarn-offline-mirror)/
+
+# Editor directories and files
+.idea/
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.DS_Store
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.tsbuildinfo
+*.js.map
+*.d.ts.map
+# local config files
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.eslintcache
+.prettiercache
