@@ -4,7 +4,7 @@ import './App.css';
 
 interface Attendee {
   Timestamp: string;
-  Email: string;
+  "Email Address": string;
   "Responder Name": string;
   "Number of Guests": string;
   Name: string;
@@ -24,9 +24,10 @@ function App() {
   const location = useLocation();
 
   // Replace with your deployed Google Apps Script doGet URL
-  const doGetWebAppUrl = 'https://script.google.com/macros/s/AKfycbzHvmMsw8W_DKLT9kZhCak_PujFyKOun2KcS1WqjQARd51GSDBJEMbF3qB5_lwKMeE-/exec';
+
+  const doGetWebAppUrl = 'https://script.google.com/macros/s/AKfycbznszvq04GVcerpSfhny8Mk1Hj5UD_JiHsJ4de25qrI1XD10z9IMDxrU4if4sApunY/exec';
   // Replace with your deployed Google Apps Script doPost URL
-  const doPostWebAppUrl = 'https://script.google.com/macros/s/AKfycbzHvmMsw8W_DKLT9kZhCak_PujFyKOun2KcS1WqjQARd51GSDBJEMbF3qB5_lwKMeE-/exec';
+  const doPostWebAppUrl = 'https://script.google.com/macros/s/AKfycbznszvq04GVcerpSfhny8Mk1Hj5UD_JiHsJ4de25qrI1XD10z9IMDxrU4if4sApunY/exec';
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -83,10 +84,10 @@ function App() {
     setIsLoading(true); // Set loading to true before checking in
     try {
       const response = await fetch(doPostWebAppUrl, {
+        //redirect: 'follow',
         method: 'POST',
-        redirect: 'follow',
         headers: {
-          'Content-Type': 'text/plain;charset=utf-8'
+          'Content-Type': 'text/plain; charset=utf-8'
         },
         body: JSON.stringify({ uniqueIds: checkedAttendees }),
       });
@@ -94,7 +95,7 @@ function App() {
 
       if (data.status === 'success') {
         setMessage(data.message);
-        fetchAttendees(); // Optionally, refetch attendees to update their status
+        await fetchAttendees(); // Optionally, refetch attendees to update their status
       } else {
         setMessage(data.message);
       }
@@ -131,7 +132,7 @@ function App() {
 
       {!isLoading && attendees.length > 0 && (
         <div className="attendee-list">
-          <h2>Attendees for Email: {attendees[0].Email}</h2>
+          <h2>Attendees for Email: {attendees[0]["Email Address"]}</h2>
           {attendees.map((attendee) => (
             <div key={attendee.UniqueId} className="attendee-item">
               <div className="checkbox-container">
