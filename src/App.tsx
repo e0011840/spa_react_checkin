@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import './App.css';
 
@@ -16,38 +16,76 @@ interface Attendee {
 }
 
 function App() {
-  const [uniqueIdInput, setUniqueIdInput] = useState<string>('');
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchBy, setSearchBy] = useState<'uniqueId' | 'name' | 'email'>('uniqueId');
+  const buttonRef = useRef(null);
   const [attendees, setAttendees] = useState<Attendee[]>([]);
   const [checkedAttendees, setCheckedAttendees] = useState<string[]>([]);
   const [message, setMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false); // New loading state
+  const [allNames, setAllNames] = useState<string[]>([]); // New state for all names
   const location = useLocation();
 
   // Replace with your deployed Google Apps Script doGet URL
 
-  const doGetWebAppUrl = 'https://script.google.com/macros/s/AKfycbznszvq04GVcerpSfhny8Mk1Hj5UD_JiHsJ4de25qrI1XD10z9IMDxrU4if4sApunY/exec';
+  const doGetWebAppUrl = 'https://script.google.com/macros/s/AKfycbzDLO9NuXdhGDwpspy--Y2A8iP-uNNDALzeoQeBSEAGvo2meIFI2nxC1cKzEgg8dfZ7/exec';
   // Replace with your deployed Google Apps Script doPost URL
-  const doPostWebAppUrl = 'https://script.google.com/macros/s/AKfycbznszvq04GVcerpSfhny8Mk1Hj5UD_JiHsJ4de25qrI1XD10z9IMDxrU4if4sApunY/exec';
+  const doPostWebAppUrl = 'https://script.google.com/macros/s/AKfycbzDLO9NuXdhGDwpspy--Y2A8iP-uNNDALzeoQeBSEAGvo2meIFI2nxC1cKzEgg8dfZ7/exec';
+
+  useEffect(() => {
+    const fetchAllNames = async () => {
+      try {
+        const response = await fetch(`${doGetWebAppUrl}?name=ALL`);
+        const data = await response.json();
+        if (data.status === 'success') {
+          setAllNames(data.names); // Get unique names
+        } else {
+          console.error('Error fetching all names:', data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching all names:', error);
+      }
+    };
+
+    fetchAllNames();
+  }, []); // Empty dependency array means this runs once on mount
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const urlUniqueId = params.get('uniqueId');
+    const urlName = params.get('name');
+    const urlEmail = params.get('email');
+
     if (urlUniqueId) {
-      setUniqueIdInput(urlUniqueId);
-      fetchAttendees(urlUniqueId);
+      setSearchTerm(urlUniqueId);
+      setSearchBy('uniqueId');
+      fetchAttendees('uniqueId', urlUniqueId);
+    } else if (urlName) {
+      setSearchTerm(urlName);
+      setSearchBy('name');
+      fetchAttendees('name', urlName);
+    } else if (urlEmail) {
+      setSearchTerm(urlEmail);
+      setSearchBy('email');
+      fetchAttendees('email', urlEmail);
     }
   }, [location.search]);
 
-  const fetchAttendees = async (id: string = uniqueIdInput) => {
+  const fetchAttendees = async (criteria: 'uniqueId' | 'name' | 'email', term: string) => {
     setMessage('');
-    if (!id) {
-      setMessage('Please enter a Unique ID.');
+    if (!term) {
+      setMessage(`Please enter a ${criteria === 'uniqueId' ? 'Unique ID' : criteria === 'name' ? 'Name' : 'Email Address'}.`);
+      return;
+    }
+
+    if (criteria === 'name' && term === 'ALL') {
+      setMessage('Name not found.');
       return;
     }
 
     setIsLoading(true); // Set loading to true before fetching
     try {
-      const response = await fetch(`${doGetWebAppUrl}?uniqueId=${id}`);
+      const response = await fetch(`${doGetWebAppUrl}?${criteria}=${term}`);
       const data = await response.json();
 
       if (data.status === 'success') {
@@ -63,6 +101,14 @@ function App() {
       setAttendees([]);
     } finally {
       setIsLoading(false); // Set loading to false after fetching (success or error)
+    }
+  };
+
+  // Handle key press on input
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // Prevent form submission if inside a form
+      fetchAttendees(searchBy, searchTerm);
     }
   };
 
@@ -95,7 +141,7 @@ function App() {
 
       if (data.status === 'success') {
         setMessage(data.message);
-        await fetchAttendees(); // Optionally, refetch attendees to update their status
+        await fetchAttendees(searchBy, searchTerm); // Optionally, refetch attendees to update their status
       } else {
         setMessage(data.message);
       }
@@ -109,16 +155,36 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Attendee Check-In</h1>
+      <h1>Check-In</h1>
       {!location.search && (
         <div className="input-section">
+          <div className="select-wrapper">
+            <select
+              value={searchBy}
+              onChange={(e) => setSearchBy(e.target.value as 'uniqueId' | 'name' | 'email')}
+              className="search-by-dropdown"
+            >
+              <option value="uniqueId">ID</option>
+              <option value="name">Name</option>
+              <option value="email">Email</option>
+            </select>
+          </div>
           <input
             type="text"
-            placeholder="Enter Unique ID"
-            value={uniqueIdInput}
-            onChange={(e) => setUniqueIdInput(e.target.value)}
+            placeholder={searchBy === 'uniqueId' ? 'Enter Unique ID' : searchBy === 'name' ? 'Enter Name' : 'Enter Email Address'}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            list={searchBy === 'name' && allNames && allNames.length > 0 ? 'name-suggestions' : undefined}
+            onKeyDown={handleKeyDown}
           />
-          <button onClick={() => fetchAttendees()}>Fetch Attendees</button>
+          {searchBy === 'name' && allNames && allNames.length > 0 && (
+            <datalist id="name-suggestions">
+              {allNames.map((name) => (
+                <option key={name} value={name} />
+              ))}
+            </datalist>
+          )}
+          <button ref={buttonRef} onClick={() => fetchAttendees(searchBy, searchTerm)}>Fetch Attendees</button>
         </div>
       )}
 
@@ -132,7 +198,7 @@ function App() {
 
       {!isLoading && attendees.length > 0 && (
         <div className="attendee-list">
-          <h2>Attendees for Email: {attendees[0]["Email Address"]}</h2>
+          <h2>Attendees</h2>
           {attendees.map((attendee) => (
             <div key={attendee.UniqueId} className="attendee-item">
               <div className="checkbox-container">
