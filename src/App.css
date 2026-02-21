@@ -27,11 +27,37 @@ h1 {
 
 .input-section {
   display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
+  justify-content: center;  margin-bottom: 30px;
   gap: 10px; /* Space between input and button */
 }
 
+.input-section select {
+  padding: 12px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  font-size: 1em;
+  appearance: none; /* Standard */
+  -webkit-appearance: none; /* Safari/Chrome */
+  -moz-appearance: none; /* Firefox */
+  min-width: 120px; /* Ensure sufficient width */
+}
+/* Add this to your App.css */
+.select-wrapper {
+  position: relative;
+  display: inline-block; /* Allows the wrapper to size to its content */
+  width: auto; /* Allow content to dictate width */
+}
+
+.select-wrapper::after {
+  content: "▼"; /* Your custom arrow */
+  font-size: 14px;
+  color: #555;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; /* Allows clicks to pass through to the select element */
+}
 .input-section input[type="text"] {
   flex-grow: 1;
   max-width: 300px;
@@ -67,6 +93,7 @@ h1 {
 }
 
 .attendee-list {
+  margin-right: 10px;
   margin-top: 25px;
   background-color: #fdfdfd;
   border: 1px solid #e0e0e0;
@@ -185,8 +212,21 @@ h1 {
     gap: 15px;
   }
 
+  .input-section select {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .select-wrapper {
+    width: 100%;
+  }
+
   .input-section input[type="text"] {
     max-width: 100%;
+  }
+
+  .attendee-list {
+    margin-right: 5px;
   }
 
   .attendee-item {
