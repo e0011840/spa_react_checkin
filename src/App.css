@@ -1,6 +1,6 @@
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #f4f7f6;
+  background-color: #faf7f2;
   margin: 0;
   padding: 0;
   display: flex;
@@ -20,7 +20,7 @@ body {
 }
 
 h1 {
-  color: #333;
+  color: #2c5f6f;
   margin-bottom: 25px;
   font-size: 2.2em;
 }
@@ -29,11 +29,14 @@ h1 {
   display: flex;
   justify-content: center;  margin-bottom: 30px;
   gap: 10px; /* Space between input and button */
+  appearance: none; /* Standard */
+  -webkit-appearance: none; /* Safari/Chrome */
+  -moz-appearance: none; /* Firefox */
 }
 
 .input-section select {
   padding: 12px 15px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #d4a574;
   border-radius: 5px;
   font-size: 1em;
   appearance: none; /* Standard */
@@ -51,25 +54,64 @@ h1 {
 .select-wrapper::after {
   content: "▼"; /* Your custom arrow */
   font-size: 14px;
-  color: #555;
+  color: #9b7653;
   position: absolute;
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none; /* Allows clicks to pass through to the select element */
 }
-.input-section input[type="text"] {
+
+/* Autocomplete Container and Dropdown */
+.autocomplete-container {
   flex-grow: 1;
   max-width: 300px;
+  position: relative;
+}
+
+.autocomplete-container input[type="text"] {
   padding: 12px 15px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #d4a574;
   border-radius: 5px;
   font-size: 1em;
 }
 
+.autocomplete-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #d4a574;
+  border-top: none;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.autocomplete-item {
+  padding: 12px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0e6d6;
+  color: #4a4a4a;
+  transition: background-color 0.2s ease;
+}
+
+.autocomplete-item:last-child {
+  border-bottom: none;
+}
+
+.autocomplete-item:hover {
+  background-color: #fef9f4;
+  color: #2c5f6f;
+}
+
 .input-section button {
   padding: 12px 20px;
-  background-color: #007bff;
+  background-color: #2c5f6f;
   color: white;
   border: none;
   border-radius: 5px;
@@ -79,7 +121,7 @@ h1 {
 }
 
 .input-section button:hover {
-  background-color: #0056b3;
+  background-color: #1e4452;
 }
 
 .message {
@@ -95,8 +137,8 @@ h1 {
 .attendee-list {
   margin-right: 10px;
   margin-top: 25px;
-  background-color: #fdfdfd;
-  border: 1px solid #e0e0e0;
+  background-color: #fef9f4;
+  border: 1px solid #d4a574;
   padding: 25px;
   border-radius: 8px;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -104,7 +146,7 @@ h1 {
 
 .attendee-list h2 {
   margin-top: 0;
-  color: #555;
+  color: #2c5f6f;
   font-size: 1.8em;
   margin-bottom: 20px;
 }
@@ -114,7 +156,7 @@ h1 {
   align-items: center;
   justify-content: space-between; /* Distribute items horizontally */
   padding: 12px 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #e8d9c8;
 }
 
 .attendee-item:last-child {
@@ -136,19 +178,19 @@ h1 {
 
 .attendee-item label {
   font-size: 1.1em;
-  color: #333;
+  color: #4a4a4a;
   cursor: pointer;
 }
 
 .attendee-item .status-info {
   font-size: 0.9em;
-  color: #777;
+  color: #9b7653;
   margin-left: 15px; /* Space between label and status */
 }
 
 .attendee-item input[type="checkbox"]:disabled + label,
 .attendee-item input[type="checkbox"]:disabled ~ .status-info {
-  color: #aaa;
+  color: #c4a990;
   text-decoration: line-through;
 }
 
@@ -170,7 +212,7 @@ h1 {
 }
 
 .attendee-list > button:disabled {
-  background-color: #cccccc;
+  background-color: #c4a990;
   cursor: not-allowed;
 }
 
@@ -183,7 +225,7 @@ h1 {
 
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #007bff;
+  border-left-color: #2c5f6f;
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -223,6 +265,14 @@ h1 {
 
   .input-section input[type="text"] {
     max-width: 100%;
+  }
+
+  .autocomplete-container {
+    max-width: 100%;
+  }
+
+  .autocomplete-dropdown {
+    max-height: 300px;
   }
 
   .attendee-list {

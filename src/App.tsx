@@ -17,13 +17,16 @@ interface Attendee {
 
 function App() {
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [searchBy, setSearchBy] = useState<'uniqueId' | 'name' | 'email'>('uniqueId');
+  const [searchBy, setSearchBy] = useState< 'name' | 'email' | 'uniqueId'>('name');
   const buttonRef = useRef(null);
   const [attendees, setAttendees] = useState<Attendee[]>([]);
   const [checkedAttendees, setCheckedAttendees] = useState<string[]>([]);
   const [message, setMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false); // New loading state
   const [allNames, setAllNames] = useState<string[]>([]); // New state for all names
+  const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
+  const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
   const location = useLocation();
 
   // Replace with your deployed Google Apps Script doGet URL
@@ -71,7 +74,7 @@ function App() {
     }
   }, [location.search]);
 
-  const fetchAttendees = async (criteria: 'uniqueId' | 'name' | 'email', term: string) => {
+  const fetchAttendees = async (criteria: 'name' | 'email' | 'uniqueId', term: string) => {
     setMessage('');
     if (!term) {
       setMessage(`Please enter a ${criteria === 'uniqueId' ? 'Unique ID' : criteria === 'name' ? 'Name' : 'Email Address'}.`);
@@ -108,8 +111,30 @@ function App() {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault(); // Prevent form submission if inside a form
+      setShowSuggestions(false);
       fetchAttendees(searchBy, searchTerm);
+    } else if (e.key === "Escape") {
+      setShowSuggestions(false);
     }
+  };
+
+  const handleInputChange = (value: string) => {
+    setSearchTerm(value);
+    if (searchBy === 'name' && value.trim()) {
+      const filtered = allNames.filter((name) =>
+        name.toLowerCase().includes(value.toLowerCase())
+      );
+      setFilteredSuggestions(filtered);
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
+  };
+
+  const handleSuggestionClick = (name: string) => {
+    setSearchTerm(name);
+    setShowSuggestions(false);
+    // fetchAttendees('name', name);
   };
 
   const handleCheckboxChange = (uniqueId: string) => {
@@ -161,29 +186,36 @@ function App() {
           <div className="select-wrapper">
             <select
               value={searchBy}
-              onChange={(e) => setSearchBy(e.target.value as 'uniqueId' | 'name' | 'email')}
+              onChange={(e) => setSearchBy(e.target.value as 'name' | 'email')}
               className="search-by-dropdown"
             >
-              <option value="uniqueId">ID</option>
               <option value="name">Name</option>
               <option value="email">Email</option>
             </select>
           </div>
-          <input
-            type="text"
-            placeholder={searchBy === 'uniqueId' ? 'Enter Unique ID' : searchBy === 'name' ? 'Enter Name' : 'Enter Email Address'}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            list={searchBy === 'name' && allNames && allNames.length > 0 ? 'name-suggestions' : undefined}
-            onKeyDown={handleKeyDown}
-          />
-          {searchBy === 'name' && allNames && allNames.length > 0 && (
-            <datalist id="name-suggestions">
-              {allNames.map((name) => (
-                <option key={name} value={name} />
-              ))}
-            </datalist>
-          )}
+          <div className="autocomplete-container">
+            <input
+              ref={inputRef}
+              type="text"
+              placeholder={searchBy === 'email' ? 'Enter Email Address' : 'Enter Name'}
+              value={searchTerm}
+              onChange={(e) => handleInputChange(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+            {showSuggestions && filteredSuggestions.length > 0 && (
+              <div className="autocomplete-dropdown">
+                {filteredSuggestions.map((name) => (
+                  <div
+                    key={name}
+                    className="autocomplete-item"
+                    onClick={() => handleSuggestionClick(name)}
+                  >
+                    {name}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
           <button ref={buttonRef} onClick={() => fetchAttendees(searchBy, searchTerm)}>Fetch Attendees</button>
         </div>
       )}
