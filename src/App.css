@@ -1,5 +1,5 @@
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   background-color: #faf7f2;
   margin: 0;
   padding: 0;
@@ -7,6 +7,8 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .App {
@@ -27,39 +29,48 @@ h1 {
 
 .input-section {
   display: flex;
-  justify-content: center;  margin-bottom: 30px;
-  gap: 10px; /* Space between input and button */
-  appearance: none; /* Standard */
-  -webkit-appearance: none; /* Safari/Chrome */
-  -moz-appearance: none; /* Firefox */
+  justify-content: center;
+  margin-bottom: 30px;
+  gap: 10px;
+  align-items: stretch;
+  flex-wrap: wrap;
 }
 
 .input-section select {
-  padding: 12px 15px;
+  height: 44px;
+  padding: 10px 12px;
   border: 1px solid #d4a574;
   border-radius: 5px;
-  font-size: 1em;
-  appearance: none; /* Standard */
-  -webkit-appearance: none; /* Safari/Chrome */
-  -moz-appearance: none; /* Firefox */
-  min-width: 120px; /* Ensure sufficient width */
+  -webkit-border-radius: 5px;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="%239b7653" d="M6 9L1 4h10z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 35px;
+  background-color: #ffffff;
+  color: #333333;
+  text-align: left;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
+.input-section select option {
+  background-color: #ffffff;
+  font-size: 16px;
+  line-height: 1.5;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
 /* Add this to your App.css */
 .select-wrapper {
   position: relative;
-  display: inline-block; /* Allows the wrapper to size to its content */
-  width: auto; /* Allow content to dictate width */
-}
-
-.select-wrapper::after {
-  content: "▼"; /* Your custom arrow */
-  font-size: 14px;
-  color: #9b7653;
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none; /* Allows clicks to pass through to the select element */
+  display: inline-block;
+  width: auto;
 }
 
 /* Autocomplete Container and Dropdown */
@@ -67,13 +78,25 @@ h1 {
   flex-grow: 1;
   max-width: 300px;
   position: relative;
+  min-width: 200px;
 }
 
 .autocomplete-container input[type="text"] {
-  padding: 12px 15px;
+  width: 100%;
+  height: 44px;
+  padding: 10px 12px;
   border: 1px solid #d4a574;
   border-radius: 5px;
-  font-size: 1em;
+  -webkit-border-radius: 5px;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  background-color: #ffffff;
+  color: #333333;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .autocomplete-dropdown {
@@ -86,41 +109,63 @@ h1 {
   border-top: none;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
   max-height: 250px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   z-index: 1000;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .autocomplete-item {
   padding: 12px 15px;
+  display: flex;
+  align-items: center;
   cursor: pointer;
   border-bottom: 1px solid #f0e6d6;
   color: #4a4a4a;
   transition: background-color 0.2s ease;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .autocomplete-item:last-child {
   border-bottom: none;
 }
 
+.autocomplete-item:active,
 .autocomplete-item:hover {
   background-color: #fef9f4;
   color: #2c5f6f;
 }
 
 .input-section button {
-  padding: 12px 20px;
+  padding: 0 20px;
   background-color: #2c5f6f;
+  height:44px;
   color: white;
   border: none;
   border-radius: 5px;
+  -webkit-border-radius: 5px;
   cursor: pointer;
-  font-size: 1em;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-weight: 500;
   transition: background-color 0.3s ease;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.input-section button:hover {
+.input-section button:hover,
+.input-section button:active {
   background-color: #1e4452;
 }
 
@@ -172,14 +217,20 @@ h1 {
 
 .attendee-item input[type="checkbox"] {
   margin-right: 15px;
-  transform: scale(1.3); /* Slightly larger checkbox */
+  width: 20px;
+  height: 20px;
   cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  accent-color: #2c5f6f;
 }
 
 .attendee-item label {
-  font-size: 1.1em;
+  font-size: 16px;
   color: #4a4a4a;
   cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .attendee-item .status-info {
@@ -195,25 +246,36 @@ h1 {
 }
 
 .attendee-list > button {
-  /* Check-in button */
-  padding: 12px 25px;
+  padding: 0 25px;
   background-color: #28a745;
   color: white;
   border: none;
   border-radius: 5px;
+  -webkit-border-radius: 5px;
   cursor: pointer;
-  font-size: 1.1em;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-weight: 500;
   margin-top: 25px;
   transition: background-color 0.3s ease;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.attendee-list > button:hover:not(:disabled) {
+.attendee-list > button:hover:not(:disabled),
+.attendee-list > button:active:not(:disabled) {
   background-color: #218838;
 }
 
 .attendee-list > button:disabled {
   background-color: #c4a990;
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .spinner-container {
@@ -251,24 +313,19 @@ h1 {
 
   .input-section {
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
   }
 
-  .input-section select {
-    min-width: unset;
+  .input-section select,
+  .autocomplete-container,
+  .input-section button {
     width: 100%;
+    min-width: unset;
+    max-width: 100%;
   }
 
   .select-wrapper {
     width: 100%;
-  }
-
-  .input-section input[type="text"] {
-    max-width: 100%;
-  }
-
-  .autocomplete-container {
-    max-width: 100%;
   }
 
   .autocomplete-dropdown {
