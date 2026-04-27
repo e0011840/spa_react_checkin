@@ -3,13 +3,8 @@ import { useLocation } from 'react-router-dom';
 import './App.css';
 
 interface Attendee {
-  Timestamp: string;
-  "Email Address": string;
-  "Responder Name": string;
-  "Number of Guests": string;
   Name: string;
   "Meal Preference": string;
-  "Allergy & Restrictions": string;
   CheckIn: string;
   UniqueId: string;
   "Table No"?: string; // New field for table number
@@ -31,9 +26,9 @@ function App() {
 
   // Replace with your deployed Google Apps Script doGet URL
 
-  const doGetWebAppUrl = 'https://script.google.com/macros/s/AKfycbxAQLvIvXv5jmTXGbmegRtoLamcLhKTvrWZcdw-DFteTjpD2ct8KRY7wWwPKkprZ3et/exec';
+  const doGetWebAppUrl = 'https://script.google.com/macros/s/AKfycbyWUa324bKbV7DUhGzfxi7dKgxQLbd_UmCVaKpwnuJBh4Cjjdc4jxSsyYz0BOiMIBQV/exec';
   // Replace with your deployed Google Apps Script doPost URL
-  const doPostWebAppUrl = 'https://script.google.com/macros/s/AKfycbxAQLvIvXv5jmTXGbmegRtoLamcLhKTvrWZcdw-DFteTjpD2ct8KRY7wWwPKkprZ3et/exec';
+  const doPostWebAppUrl = 'https://script.google.com/macros/s/AKfycbyWUa324bKbV7DUhGzfxi7dKgxQLbd_UmCVaKpwnuJBh4Cjjdc4jxSsyYz0BOiMIBQV/exec';
 
   useEffect(() => {
     const fetchAllNames = async () => {
