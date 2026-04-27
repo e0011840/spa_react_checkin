@@ -45,8 +45,11 @@ function App() {
       }
     };
 
-    fetchAllNames();
-  }, []); // Empty dependency array means this runs once on mount
+    // Only fetch all names if there are no search parameters
+    if (!location.search && allNames.length === 0) {
+      fetchAllNames();
+    }
+  }, [location.search]); // Runs once on mount and checks URL params
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
