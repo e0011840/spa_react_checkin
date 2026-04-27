@@ -31,9 +31,9 @@ function App() {
 
   // Replace with your deployed Google Apps Script doGet URL
 
-  const doGetWebAppUrl = 'https://script.google.com/macros/s/AKfycbzXpAIA5q2tpUhHxewJoobLwCb7GGQj-iuHc_9iBOiO-I6_MtwJiHQeDp2hY_u5crSS/exec';
+  const doGetWebAppUrl = 'https://script.google.com/macros/s/AKfycbxAQLvIvXv5jmTXGbmegRtoLamcLhKTvrWZcdw-DFteTjpD2ct8KRY7wWwPKkprZ3et/exec';
   // Replace with your deployed Google Apps Script doPost URL
-  const doPostWebAppUrl = 'https://script.google.com/macros/s/AKfycbzXpAIA5q2tpUhHxewJoobLwCb7GGQj-iuHc_9iBOiO-I6_MtwJiHQeDp2hY_u5crSS/exec';
+  const doPostWebAppUrl = 'https://script.google.com/macros/s/AKfycbxAQLvIvXv5jmTXGbmegRtoLamcLhKTvrWZcdw-DFteTjpD2ct8KRY7wWwPKkprZ3et/exec';
 
   useEffect(() => {
     const fetchAllNames = async () => {
