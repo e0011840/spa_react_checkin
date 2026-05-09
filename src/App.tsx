@@ -26,9 +26,9 @@ function App() {
 
   // Replace with your deployed Google Apps Script doGet URL
 
-  const doGetWebAppUrl = 'https://script.google.com/macros/s/AKfycbyWUa324bKbV7DUhGzfxi7dKgxQLbd_UmCVaKpwnuJBh4Cjjdc4jxSsyYz0BOiMIBQV/exec';
+  const doGetWebAppUrl = 'https://script.google.com/macros/s/AKfycbzA-daS9GVZ2nZMt2tCtHQWz1_IEymaAQtmf5AV4o75j7DTalOcuUxmSvCqCePh9_mu/exec';
   // Replace with your deployed Google Apps Script doPost URL
-  const doPostWebAppUrl = 'https://script.google.com/macros/s/AKfycbyWUa324bKbV7DUhGzfxi7dKgxQLbd_UmCVaKpwnuJBh4Cjjdc4jxSsyYz0BOiMIBQV/exec';
+  const doPostWebAppUrl = 'https://script.google.com/macros/s/AKfycbzA-daS9GVZ2nZMt2tCtHQWz1_IEymaAQtmf5AV4o75j7DTalOcuUxmSvCqCePh9_mu/exec';
 
   useEffect(() => {
     const fetchAllNames = async () => {
