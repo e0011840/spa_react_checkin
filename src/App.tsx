@@ -255,6 +255,15 @@ function App() {
           </button>
         </div>
       )}
+
+      <section className="ballroom-layout-section">
+        <h2>Ballroom Layout</h2>
+        <img
+          src="/Ballroom_Layout.jpeg"
+          alt="Ballroom layout"
+          className="ballroom-layout-image"
+        />
+      </section>
     </div>
   );
 }
