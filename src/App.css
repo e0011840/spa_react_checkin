@@ -307,6 +307,32 @@ h1 {
   padding: 20px;
 }
 
+.ballroom-layout-section {
+  margin-top: 30px;
+  background-color: #fef9f4;
+  border: 1px solid #d4a574;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.ballroom-layout-section h2 {
+  margin-top: 0;
+  color: #2c5f6f;
+  font-size: 1.8em;
+  margin-bottom: 20px;
+}
+
+.ballroom-layout-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #d4a574;
+  background-color: #ffffff;
+}
+
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
   border-left-color: #2c5f6f;
