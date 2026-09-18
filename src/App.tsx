@@ -86,7 +86,7 @@ function App() {
 
     setIsLoading(true); // Set loading to true before fetching
     try {
-      const response = await fetch(`${doGetWebAppUrl}?${criteria}=${term}`);
+      const response = await fetch(`${doGetWebAppUrl}?${criteria}=${encodeURIComponent(term)}`);
       const data = await response.json();
 
       if (data.status === 'success') {
